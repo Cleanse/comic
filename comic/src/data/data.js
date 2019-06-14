@@ -1,18 +1,20 @@
 export const data = [
     {
-        text: 'This is page one.',
-        source: '/page-1'
+        text: {
+            0: 'This is page one.',
+            1: 'This is page two.'
+        }
     },
     {
-        text: 'This is page two.',
-        source: '/page-2'
+        text: {
+            0: 'This is page three.',
+            1: 'This is page four.'
+        }
     },
     {
-        text: 'This is page three.',
-        source: '/page-3'
-    },
-    {
-        text: 'Like wtf.',
-        source: '/page-4'
-    },
+        text: {
+            0: 'This is page five.',
+            1: 'This is page six.'
+        }
+    }
 ];

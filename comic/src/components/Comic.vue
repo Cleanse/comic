@@ -1,22 +1,15 @@
 <template>
     <div class="comic-wrapper">
         <div ref="bookblock" class="bb-bookblock" v-bookblock="options">
-            <div class="bb-item">
-                <div class="page cover">
-                    <h1>Gaia</h1>
-                    <p>by A.V.</p>
-                </div>
-            </div>
-
             <div class="bb-item" v-for="item in data" :key="item.id">
                 <div class="page">
-                    <img src="../assets/av-sample.png" alt="image01">
-                    <div class="bb-div">{{ item.text }}</div>
+                    <img src="../assets/av-sample.png" alt="Image Title">
+                    <div class="bb-div">{{ item.text[0] }}</div>
                 </div>
 
                 <div class="page">
-                    <img src="../assets/av-sample.png" alt="image01">
-                    <div class="bb-div">{{ item.text }}</div>
+                    <img src="../assets/av-sample.png" alt="Image Title 2">
+                    <div class="bb-div">{{ item.text[1] }}</div>
                 </div>
             </div>
         </div>
@@ -31,33 +24,50 @@
 </template>
 
 <style lang="scss" scoped>
-    .bb-bookblock {
-        width: 850px;
-        height: 600px;
+    .comic-wrapper {
+        background: #222;
     }
+
+    .bb-bookblock {
+        width: 904px;
+        height: 640px;
+    }
+
+    .bb-item {
+        background: #222;
+    }
+
     .page {
         width: 50%;
         float: left;
         height: 100%;
-        padding: 5%;
         box-sizing: border-box;
+        background: #000;
         border: 1px solid #eee;
+
+        .bb-div {
+            margin-top: -2rem;
+            background: #efefef;
+        }
     }
+
     .page + .page {
         border-left: 0;
     }
-    nav {
-        margin-top: 1em;
+
+    .page img {
+        width: 100%;
+        height: auto;
     }
+
     .cover {
         width: 50%;
         margin-left: auto;
         float: none;
     }
 
-    .page img {
-        width: 100%;
-        height: auto;
+    nav {
+        margin-top: 1em;
     }
 
     .bb-nav-first,
@@ -80,6 +90,7 @@
     }
 </style>
 
+<!--https://codepen.io/jasesmith/pen/GmQbME-->
 <script>
     import {data} from "../data/data.js";
 
@@ -90,7 +101,8 @@
                     speed: 1000,
                     shadowSides: 0.8,
                     shadowFlip: 0.7,
-                    orientation: 'vertical'
+                    orientation: 'vertical',
+                    hasCover: false
                 },
                 data: data
             };
