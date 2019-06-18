@@ -1,9 +1,9 @@
 <template>
     <div id="app">
-        <Comic></Comic>
         <div class="episodes-list-wrapper">
             <v-select :options="episodes" @input="setSelected"></v-select>
         </div>
+        <Comic></Comic>
     </div>
 </template>
 
@@ -23,7 +23,7 @@
         },
         methods: {
             setSelected(value) {
-                console.log(value.code);
+                return value;
             }
         }
     }
@@ -31,7 +31,7 @@
 
 <style>
     body {
-        background: #fff;
+        background: #222;
     }
 
     #app {
@@ -45,6 +45,6 @@
 
     .episodes-list-wrapper {
         width: 904px;
-        margin: 0 auto;
+        margin: 0 auto 1rem;
     }
 </style>

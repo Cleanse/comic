@@ -1,31 +1,73 @@
 <template>
     <div class="comic-wrapper">
         <div ref="bookblock" class="bb-bookblock" v-bookblock="options">
-            <div class="bb-item" v-for="item in episode.pages" :key="item.id">
-                <div class="page">
-                    <img v-bind:src="item.images[0]" alt="Image Title">
+            <div class="bb-item" v-for="i in rowCount" v-bind:key="i.id">
+                <div class="page" v-for="(item, index) in pageCountInRow(i)" v-bind:key="item.id">
+                    <img :src="item.image"
+                         :alt="item.title">
                     <div class="bb-div">
-                        <a class="bb-nav-prev" href="javascript:" @click="bookblock.prev()">Previous</a>
-                    </div>
-                </div>
-
-                <div class="page">
-                    <img v-if="item.images[1]" v-bind:src="item.images[1]" alt="Image Title 2">
-                    <div class="bb-div">
-                        <a class="bb-nav-next" href="javascript:" @click="bookblock.next()">Next</a>
+                        <a class="bb-nav-prev" href="javascript:"
+                           v-if="index % 2"
+                           @click="bookblock.next()">Next</a>
+                        <a class="bb-nav-next" href="javascript:"
+                           v-else
+                           @click="bookblock.prev()">Previous</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <nav>
-            <a class="bb-nav-first" v-if="episode.links.prev" v-bind:href="episode.links.prev">Previous Episode</a>
-            <a class="bb-nav-first" href="javascript:" @click="bookblock.first()">First page</a>
-            <a class="bb-nav-last" href="javascript:" @click="bookblock.last()">Last page</a>
-            <a class="bb-nav-last" v-if="episode.links.next" v-bind:href="episode.links.next">Next Episode</a>
+            <a class="bb-nav-first"
+               v-if="episode.links.prev"
+               v-bind:href="episode.links.prev">Previous Episode</a>
+            <a class="bb-nav-first" href="javascript:"
+               @click="bookblock.first()">First page</a>
+            <a class="bb-nav-last" href="javascript:"
+               @click="bookblock.last()">Last page</a>
+            <a class="bb-nav-last"
+               v-if="episode.links.next"
+               v-bind:href="episode.links.next">Next Episode</a>
         </nav>
     </div>
 </template>
+
+<!-- https://codepen.io/jasesmith/pen/GmQbME -->
+<script>
+    import { episode } from "../data/data.js";
+
+    export default {
+        data: function () {
+            return {
+                options: {
+                    speed: 1000,
+                    shadowSides: 0.8,
+                    shadowFlip: 0.7,
+                    orientation: 'vertical',
+                    hasCover: false
+                },
+                pagesPerRow: 2,
+                episode: episode
+            };
+        },
+        computed: {
+            bookblock: function () {
+                return this.$refs.bookblock.bookblock;
+            },
+            rowCount: function () {
+                return Math.ceil(this.episode.pages.length / this.pagesPerRow);
+            }
+        },
+        methods: {
+            setSelected(value) {
+                return value;
+            },
+            pageCountInRow: function (index) {
+                return this.episode.pages.slice((index - 1) * this.pagesPerRow, index * this.pagesPerRow)
+            }
+        }
+    };
+</script>
 
 <style lang="scss" scoped>
     .comic-wrapper {
@@ -108,6 +150,8 @@
 
     nav {
         margin-top: 1em;
+        display: flex;
+        justify-content: center;
     }
 
     .bb-nav-first,
@@ -127,28 +171,3 @@
         color: #FFDD5F;
     }
 </style>
-
-<!--https://codepen.io/jasesmith/pen/GmQbME-->
-<script>
-    import { data } from "../data/data.js";
-
-    export default {
-        data: function () {
-            return {
-                options: {
-                    speed: 1000,
-                    shadowSides: 0.8,
-                    shadowFlip: 0.7,
-                    orientation: 'vertical',
-                    hasCover: false
-                },
-                episode: data
-            };
-        },
-        computed: {
-            bookblock: function () {
-                return this.$refs.bookblock.bookblock;
-            }
-        }
-    };
-</script>
